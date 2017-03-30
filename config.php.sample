@@ -1,0 +1,13 @@
+<?php
+  class DB{
+    public const name  = '';
+    public const user  = '';
+    public const pass  = '';
+  }
+  class Email{
+    public const login = '';
+    public const pw = '';
+    public const host = '';
+  }
+
+ ?>
