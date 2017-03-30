@@ -8,9 +8,9 @@
     public const login = 'admin@localhost';
     public const pw = 'password';
     public const host = 'localhost';
-    public const SMTPAuth = 'true';
+    public const SMTPAuth = true;
     public const SMTPSecure = 'tls';
-    public const port = '587';
+    public const port = 587;
   }
 
  ?>
