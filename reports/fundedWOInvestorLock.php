@@ -95,7 +95,7 @@ if($debug){
   print_r("Report is empty. Nothing to mail out.");
 }else{
   $input = getArgs($argv);
-  sendMail(NULL, $input['to'], '[Server Report] Locked Files', $htmlMessage);
+  sendMail(NULL, $input['to'], '[Server Report] Funded Files w/o Lock', $htmlMessage);
 }
 
 ?>
