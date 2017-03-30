@@ -1,8 +1,8 @@
 <?php
 
-include_once "config.php";
-include_once "mailgun.php";
-include_once "util.php";
+include_once "./config/config.php";
+include_once "./util/mailgun.php";
+include_once "./util/util.php";
 
 function prepareMessage(){
   $dateTo = new DateTime();
