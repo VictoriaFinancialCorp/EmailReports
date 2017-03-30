@@ -5,9 +5,12 @@
     public const pass  = '';
   }
   class Email{
-    public const login = '';
-    public const pw = '';
-    public const host = '';
+    public const login = 'admin@localhost';
+    public const pw = 'password';
+    public const host = 'localhost';
+    public const SMTPAuth = 'true';
+    public const SMTPSecure = 'tls';
+    public const port = '587';
   }
 
  ?>

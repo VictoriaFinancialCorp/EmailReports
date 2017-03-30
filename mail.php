@@ -11,11 +11,11 @@ function sendMail($from, $to, $subject, $message){
 
   $mail->isSMTP();                                      // Set mailer to use SMTP
   $mail->Host = Email::host;  // Specify main and backup SMTP servers
-  $mail->SMTPAuth = true;                               // Enable SMTP authentication
+  $mail->SMTPAuth = Email::SMTPAuth;                               // Enable SMTP authentication
   $mail->Username = Email::login;                 // SMTP username
   $mail->Password = Email::pw;                           // SMTP password
-  $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-  $mail->Port = 587;                                    // TCP port to connect to
+  $mail->SMTPSecure = Email::SMTPSecure;                            // Enable TLS encryption, `ssl` also accepted
+  $mail->Port = Email::port;                                    // TCP port to connect to
 
   $mail->setFrom($from);
   $mail->addAddress($to);     // Add a recipient
