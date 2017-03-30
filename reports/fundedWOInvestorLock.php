@@ -5,38 +5,48 @@ include_once "../util/mailgun.php";
 include_once "../util/util.php";
 
 function prepareMessage(){
-  $dateTo = new DateTime();
-  $dateFrom = date_sub(new DateTime(), new DateInterval('P15D'));
+  $count = 0;
 
   $head = '<head><style>'.
       'table{border-collapse:collapse;border:1px solid #808080;}'.
       'td, th{border:1px solid #808080;padding-left:.5em;padding-right:.5em;font-size:x-small;text-align:center;}'.
     '</style></head>';
 
-  $message = "<h3>Locked Files from {$dateFrom->format('m/d/y')} to {$dateTo->format('m/d/y')}</h3>" ;
-  $message .= "<table border=1><tr><th>Investor</th>" .
+  $today = new DateTime();
+  $header = "<h3>Files Funded w/o Investor Lock as of {$today->format('m/d/y')}</h3>" ;
+  $header .= "<p style='color:red;'>These files have been funded but do not have an investor lock recorded. Please address immediately.</p>" ;
+
+
+  $message = "<table border=1><tr><th>Investor</th>" .
     "<th>Investor#</th>" .
     "<th>Loan#</th>" .
     "<th>Borrower Name</th>" .
+    "<th>Address</th>" .
+    "<th>Rate</th>" .
     "<th>Loan Amount</th>" .
-    "<th>Inv. Lock Date</th>" .
-    "<th>Lock Exp</th>" .
-    "<th>Lock Type</th>" .
-    "<th>Rebate</th>" .
+    "<th>Funded Date</th>" .
+    "<th>Total Rebate</th>" .
+    "<th>Purpose</th>" .
     "<th>Processor</th>" .
     "<th>Loan Officer</th>" .
-    "<th>Funded Date</th>" .
     "</tr>";
 
 
   try {
       $dbh = new PDO('mysql:host=localhost;dbname=' . DB::name, DB::user, DB::pass);
       $query = "SELECT investor, investorNum, loanNum, b1_lname, b1_fname, " .
-        "loanAmt, investorLockDate, investorLockExpDate, investorLockType, ".
-        "totalAdj, netSRP, netYSP, processor, loanOfficer, fundedDate FROM loans " .
-        "WHERE investorLockDate >= '{$dateFrom->format('Y-m-d')}' " .
-          "AND investorLockDate <= '{$dateTo->format('y-m-d')}' " .
-        "ORDER BY investorLockDate DESC LIMIT 50 ";
+        "loanAmt, currentStatus, loanFolder, address, loan_purpose, ".
+        "processor, loanOfficer, fundedDate, purchasedDate " .
+        "totalAdj, netSRP, netYSP, int_rate " .
+        "FROM loans " .
+        "WHERE fundedDate IS NOT NULL " .
+          "AND purchasedDate IS NULL " .
+          "AND investorLockDate IS NULL " .
+          "AND ( currentStatus = ' Active Loan' OR currentStatus = ' Loan Originated') " .
+          "AND loanFolder = 'My Pipeline' " .
+        "ORDER BY fundedDate ASC ";
+
+      //  print($query);
 
       foreach($dbh->query($query) as $row) {
           $message .= "<tr>" .
@@ -44,26 +54,35 @@ function prepareMessage(){
           "<td>{$row['investorNum']}</td>" .
           "<td>{$row['loanNum']}</td>" .
           "<td>{$row['b1_lname']}, {$row['b1_fname']}</td>" .
+          "<td>{$row['address']}</td>" .
+          "<td>{$row['int_rate']}</td>" .
           "<td>{$row['loanAmt']}</td>" .
-          "<td>" . date_create($row['investorLockDate'])->format('m/d/y') . "</td>" .
-          "<td>" . date_create($row['investorLockExpDate'])->format('m/d/y') . "</td>" .
-          "<td>{$row['investorLockType']}</td>" .
+          "<td>" . date_create($row['fundedDate'])->format('m/d/y') . "</td>" .
           "<td>" . ($row['totalAdj'] + $row['netSRP'] + $row['netYSP']) ."</td>" .
+          "<td>{$row['loan_purpose']}</td>" .
           "<td>{$row['processor']}</td>" .
           "<td>{$row['loanOfficer']}</td>" .
-          "<td>" . date_create($row['fundedDate'])->format('m/d/y') . "</td>" .
           "</tr>";
+          $count++;
       }
 
       $dbh = null;
       $message .= "</table>";
+
+      if($count==0){
+        //return nothing if message is empty
+        return;
+      }
 
 
   } catch (PDOException $e) {
       print "Error!: " . $e->getMessage() . "<br/>";
       die();
   }
-  return $head . $message;
+
+  return $head . $header . $message;
+
+
 }
 
 
@@ -72,6 +91,8 @@ $htmlMessage = prepareMessage();
 $debug = (isset($argv)) ? isDebug($argv) : true;
 if($debug){
   print_r($htmlMessage);
+}elseif(empty($htmlMessage)){
+  print_r("Report is empty. Nothing to mail out.");
 }else{
   $input = getArgs($argv);
   sendMail(NULL, $input['to'], '[Server Report] Locked Files', $htmlMessage);
