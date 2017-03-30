@@ -16,7 +16,8 @@
       if($argv[$i] == "--prod"){
         array_push($input,"--prod");
       }elseif ($argv[$i] == "--t") {
-        $input['to'] = $argv[++$i];
+        $temp = $argv[++$i];
+        $input['to'] = explode("," , $temp);
       }
     }
     return $input;
