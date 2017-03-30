@@ -12,5 +12,11 @@
     public const SMTPSecure = 'tls';
     public const port = 587;
   }
+  class MailGunConfig{
+    public const api = 'key-';
+    public const domain = 'localhost';
+    public const from = 'server@localhost';
+    public const subject = '[Server Report]';
+  }
 
  ?>

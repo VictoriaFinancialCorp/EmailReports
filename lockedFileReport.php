@@ -1,7 +1,7 @@
 <?php
 
 include_once "config.php";
-include_once "mail.php";
+include_once "mailgun.php";
 include_once "util.php";
 
 function prepareMessage(){
@@ -73,7 +73,8 @@ $debug = (isset($argv)) ? isDebug($argv) : true;
 if($debug){
   print_r($htmlMessage);
 }else{
-  sendMail('admin@victoriafinancial.net', 'calvin@victoriafinancial.net', '[Server Report] Locked Files', $htmlMessage);
+  $input = getArgs($argv);
+  sendMail(NULL, $input['to'], '[Server Report] Locked Files', $htmlMessage);
 }
 
 ?>

@@ -10,4 +10,16 @@
     return true;
   }
 
+  function getArgs($argv){
+    $input = array();
+    for($i =0; $i < count($argv); $i++) {
+      if($argv[$i] == "--prod"){
+        array_push($input,"--prod");
+      }elseif ($argv[$i] == "--t") {
+        $input['to'] = $argv[++$i];
+      }
+    }
+    return $input;
+  }
+
  ?>
