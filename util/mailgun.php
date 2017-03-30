@@ -1,7 +1,7 @@
 <?php
 
-require_once './vendor/autoload.php';
-include_once './config/config.php';
+require_once '../vendor/autoload.php';
+include_once '../config/config.php';
 use Mailgun\Mailgun;
 
 function sendMail($from, $to, $subject, $html){
