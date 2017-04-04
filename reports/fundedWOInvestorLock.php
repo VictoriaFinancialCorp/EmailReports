@@ -5,12 +5,9 @@ include_once "../util/mailgun.php";
 include_once "../util/util.php";
 
 function prepareMessage(){
+  include_once "head.template.php";
+  
   $count = 0;
-
-  $head = '<head><style>'.
-      'table{border-collapse:collapse;border:1px solid #808080;}'.
-      'td, th{border:1px solid #808080;padding-left:.5em;padding-right:.5em;font-size:x-small;text-align:center;}'.
-    '</style></head>';
 
   $today = new DateTime();
   $header = "<h3>Files Funded w/o Investor Lock as of {$today->format('m/d/y')}</h3>" ;
@@ -95,7 +92,7 @@ if($debug){
   print_r("Report is empty. Nothing to mail out.");
 }else{
   $input = getArgs($argv);
-  sendMail(NULL, $input['to'], '[Server Report] Funded Files w/o Lock', $htmlMessage);
+  sendMail($input, '[Server Report] Funded Files w/o Lock', $htmlMessage);
 }
 
 ?>

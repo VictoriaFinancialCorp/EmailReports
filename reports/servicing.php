@@ -5,14 +5,8 @@ include_once "../util/mailgun.php";
 include_once "../util/util.php";
 
 function prepareMessage(){
+  include_once "head.template.php";
   $count = 0;
-
-  $head = '<head><style>'.
-      'table{border-collapse:collapse;border:1px solid #808080;}'.
-      'td, th{border:1px solid #808080;padding-left:.5em;padding-right:.5em;font-size:x-small;text-align:center;}'.
-      '.error{background-color:#f2dede; color:#a94442}' .
-      '.warning{background-color:#fcf8e3; color:#8a6d3b}' .
-    '</style></head>';
 
   $today = new DateTime();
   $header = "<h3>Payments to collect as of {$today->format('m/d/y')}</h3>" ;
@@ -60,7 +54,7 @@ function prepareMessage(){
 
         $row_style = 'none';
         if($row['servicingStatus'] == " Past Due"){
-          $row_style = 'error';
+          $row_style = 'danger';
         }elseif( $expectedPayments > $paymentsCollected ){
           $row_style = 'warning';
         }
@@ -113,7 +107,7 @@ if($debug){
   print_r("Report is empty. Nothing to mail out.");
 }else{
   $input = getArgs($argv);
-  sendMail(NULL, $input['to'], '[Server Report] Servicing Loans', $htmlMessage);
+  sendMail($input, '[Server Report] Servicing Loans', $htmlMessage);
 }
 
 ?>

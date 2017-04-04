@@ -4,7 +4,7 @@ require_once '../vendor/autoload.php';
 include_once '../config/config.php';
 use Mailgun\Mailgun;
 
-function sendMail($from, $to, $subject, $html){
+function sendMail($input, $subject, $html){
   # Instantiate the client.
   $mgClient = new MailGun(MailGunConfig::api);
   $domain = MailGunConfig::domain;
@@ -12,9 +12,9 @@ function sendMail($from, $to, $subject, $html){
   $options = [];
   $options['subject'] = (isset($subject)) ? $subject : MailGunConfig::subject;
   $options['from'] = (isset($from)) ? $from : MailGunConfig::from;
-  (isset($to)) ? $options['to'] = $to : "";
-  (isset($cc)) ? $options['cc'] = $cc : "";
-  (isset($bcc)) ? $options['bcc'] = $bcc : "";
+  (isset($input['to'])) ? $options['to'] = $input['to'] : "";
+  (isset($input['cc'])) ? $options['cc'] = $input['cc'] : "";
+  (isset($input['bcc'])) ? $options['bcc'] = $input['bcc'] : "";
   (isset($html)) ? $options['html'] = $html : "";
   //var_dump($options);
 
