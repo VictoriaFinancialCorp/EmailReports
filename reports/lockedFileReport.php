@@ -48,7 +48,7 @@ function prepareMessage(){
           "<td>" . date_create($row['investorLockDate'])->format('m/d/y') . "</td>" .
           "<td>" . date_create($row['investorLockExpDate'])->format('m/d/y') . "</td>" .
           "<td>{$row['investorLockType']}</td>" .
-          "<td>" . ($row['totalAdj'] + $row['netSRP'] + $row['netYSP']) ."</td>" .
+          "<td>" . ($row['netSRP'] + $row['netYSP']) ."</td>" .
           "<td>{$row['processor']}</td>" .
           "<td>{$row['loanOfficer']}</td>" .
           "<td>" . date_create($row['fundedDate'])->format('m/d/y') . "</td>" .
