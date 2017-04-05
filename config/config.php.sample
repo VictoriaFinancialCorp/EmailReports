@@ -1,7 +1,9 @@
 <?php
   date_default_timezone_set('America/Los_Angeles');
   class DB{
-    public const name  = '';
+    public const bin_path = 'C:/mysql/bin/';
+    public const host  = 'localhost';
+    public const db_name  = '';
     public const user  = '';
     public const pass  = '';
   }

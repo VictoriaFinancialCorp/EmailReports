@@ -24,6 +24,8 @@
       }elseif ($argv[$i] == "--bcc") {
         $temp = $argv[++$i];
         $input['bcc'] = explode("," , $temp);
+      }elseif($argv[$i] == "--backup"){
+        $input['backup'] = $argv[++$i];
       }else{
         print("invalid parameter: $argv[$i] \n" );
       }

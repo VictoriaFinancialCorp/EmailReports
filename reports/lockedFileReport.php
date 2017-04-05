@@ -27,7 +27,7 @@ function prepareMessage(){
 
 
   try {
-      $dbh = new PDO('mysql:host=localhost;dbname=' . DB::name, DB::user, DB::pass);
+      $dbh = new PDO('mysql:host=' . DB::host . ';dbname=' . DB::db_name, DB::user, DB::pass);
       $query = "SELECT investor, investorNum, loanNum, b1_lname, b1_fname, " .
         "loanAmt, investorLockDate, investorLockExpDate, investorLockType, ".
         "baseYSP, netSRP, netYSP, processor, loanOfficer, fundedDate FROM loans " .
