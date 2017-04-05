@@ -6,4 +6,5 @@ composer.phar
 # composer.lock
 
 config.php
-/backup/
+backup/*
+!backup/.gitkeep
