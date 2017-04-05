@@ -44,11 +44,19 @@ function prepareMessage(){
         //logic handling
         $firstPaymentDateInvestor = (is_null($row['firstPaymentDateInvestor'])) ? 'N/A' : date_create($row['firstPaymentDateInvestor']) -> format('m/d/y');
         $firstPaymentDate = date_create($row['firstPaymentDate']);
-        $nextPayment = ($firstPaymentDateInvestor == 'N/A') ?
-            date_create()->
+        $nextPayment = null;
+        if ($firstPaymentDateInvestor == 'N/A') {
+          if(date_diff(date_create() , date_create()->setDate(date_create()->format('Y'), date_create()->add(new DateInterval('P1M'))->format('m'), 1))->format('%d') > 15 ){
+            $nextPayment = date_create()->
+              setDate(date_create()->format('Y'), date_create()->format('m'), 1) ;
+          }else{
+            $nextPayment = date_create()->
               setDate(date_create()->format('Y'), date_create()->format('m'), 1)->
-              add(new DateInterval('P1M')) :
-            date_create($row['firstPaymentDateInvestor']) ;
+              add(new DateInterval('P1M')) ;
+          }
+        }else{
+          $nextPayment = date_create($row['firstPaymentDateInvestor']) ;
+        }
         $expectedPayments = date_diff($firstPaymentDate, $nextPayment )->format('%m');
         $paymentsCollected = $row['paymentsCollected'];
 
@@ -57,6 +65,8 @@ function prepareMessage(){
           $row_style = 'danger';
         }elseif( $expectedPayments > $paymentsCollected ){
           $row_style = 'warning';
+        }else{
+          break;
         }
         //end of logic handling
 
@@ -79,6 +89,7 @@ function prepareMessage(){
       }
 
       $dbh = null;
+      $message .= "<tr><td></td></tr><tr><td class='warning' colspan='6'>*Payment Expected Soon*</td><td class='danger' colspan='7'>*Payment Overdue*</td></tr>";
       $message .= "</table>";
 
       if($count==0){
