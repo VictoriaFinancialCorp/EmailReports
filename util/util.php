@@ -33,4 +33,9 @@
     return $input;
   }
 
+  Logger::configure('../config/config.xml');
+
+
+
+
  ?>
