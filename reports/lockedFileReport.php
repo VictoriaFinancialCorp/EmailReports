@@ -74,15 +74,14 @@ function prepareMessage(){
   return $head . $message;
 }
 
-
 //message will only be emailed with a '--prod' flag on cli
 $htmlMessage = prepareMessage();
 $debug = (isset($argv)) ? isDebug($argv) : true;
 if($debug){
-  print_r($htmlMessage);
+  print($htmlMessage);
 }else{
   $input = getArgs($argv);
-  sendMail($input, '[Server Report] Locked Files', $htmlMessage);
+  $result = sendMail($input, '[Server Report] Locked Files', $htmlMessage);
 }
 
 ?>

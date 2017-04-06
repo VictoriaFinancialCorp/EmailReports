@@ -82,14 +82,15 @@ function prepareMessage(){
 
 }
 
+$log = Logger::getLogger(basename(__FILE__));
 
 //message will only be emailed with a '--prod' flag on cli
 $htmlMessage = prepareMessage();
 $debug = (isset($argv)) ? isDebug($argv) : true;
 if($debug){
-  print_r($htmlMessage);
+  print($htmlMessage);
 }elseif(empty($htmlMessage)){
-  print_r("Report is empty. Nothing to mail out.");
+  $log->info("Report is empty. Nothing to mail out.");
 }else{
   $input = getArgs($argv);
   sendMail($input, '[Server Report] Funded Files w/o Lock', $htmlMessage);

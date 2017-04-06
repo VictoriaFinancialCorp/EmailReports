@@ -3,6 +3,7 @@
 include_once "../config/config.php";
 include_once "../util/mailgun.php";
 include_once "../util/util.php";
+include_once "../util/logger.php";
 
 function prepareMessage(){
   include_once "head.template.php";
@@ -108,6 +109,7 @@ function prepareMessage(){
 
 }
 
+$log = Logger::getLogger(basename(__FILE__));
 
 //message will only be emailed with a '--prod' flag on cli
 $htmlMessage = prepareMessage();
@@ -115,7 +117,7 @@ $debug = (isset($argv)) ? isDebug($argv) : true;
 if($debug){
   print_r($htmlMessage);
 }elseif(empty($htmlMessage)){
-  print_r("Report is empty. Nothing to mail out.");
+  $log->info("Report is empty. Nothing to mail out.");
 }else{
   $input = getArgs($argv);
   sendMail($input, '[Server Report] Servicing Loans', $htmlMessage);

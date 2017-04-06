@@ -33,7 +33,7 @@
     return $input;
   }
 
-  Logger::configure('../config/config.xml');
+//  Logger::configure('../config/config.xml');
 
 
 

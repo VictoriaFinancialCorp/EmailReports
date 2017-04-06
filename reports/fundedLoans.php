@@ -3,7 +3,7 @@
 include_once "../config/config.php";
 include_once "../util/mailgun.php";
 include_once "../util/util.php";
-
+include_once "../util/logger.php";
 
 
 function prepareMessage(){
@@ -70,13 +70,13 @@ function prepareMessage(){
 
 }
 
-$log = Logger::getLogger('fundedLoans');
+$log = Logger::getLogger(basename(__FILE__));
 
 //message will only be emailed with a '--prod' flag on cli
 $htmlMessage = prepareMessage();
 $debug = (isset($argv)) ? isDebug($argv) : true;
 if($debug){
-  $log->debug($htmlMessage);
+  print($htmlMessage);
 }elseif(empty($htmlMessage)){
   $log->info("Report is empty. Nothing to mail out.");
 }else{

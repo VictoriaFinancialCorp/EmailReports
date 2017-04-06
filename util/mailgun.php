@@ -2,9 +2,12 @@
 
 require_once '../vendor/autoload.php';
 include_once '../config/config.php';
+include_once "logger.php";
 use Mailgun\Mailgun;
 
 function sendMail($input, $subject, $html){
+  $log = Logger::getLogger("Mailgun");
+
   # Instantiate the client.
   $mgClient = new MailGun(MailGunConfig::api);
   $domain = MailGunConfig::domain;
@@ -19,8 +22,13 @@ function sendMail($input, $subject, $html){
   //var_dump($options);
 
   # Make the call to the client.
-  $result = $mgClient->sendMessage($domain, $options);
-  print $result->{"http_response_body"}->{"message"} ;
+  try{
+    $result = $mgClient->sendMessage($domain, $options);
+    $log->info($subject . " Email " . $result->{"http_response_body"}->{"message"});
+  }catch(Exception $e){
+    $log->warn($e);
+  }
+
 }
 
 ?>
