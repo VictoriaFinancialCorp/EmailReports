@@ -1,8 +1,11 @@
 <?php
 require_once '../vendor/autoload.php';
+include_once '../config/config.php';
+
 class MyConfigurator implements LoggerConfigurator {
 
   public function configure(LoggerHierarchy $hierarchy, $input = null) {
+      $save_path = (empty(LoggerConfig::save_path) )  ? '../system.log' : LoggerConfig::save_path;
 
       // Use a different layout for the next appender
       $layout = new LoggerLayoutPattern();
@@ -18,7 +21,7 @@ class MyConfigurator implements LoggerConfigurator {
 
       // Create an appender which logs to file
       $appFile = new LoggerAppenderFile('myFileAppender');
-      $appFile->setFile('../myLog.log');
+      $appFile->setFile($save_path);
       $appFile->setLayout($layout);
       $appFile->setAppend(true);
       $appFile->setThreshold('info');
