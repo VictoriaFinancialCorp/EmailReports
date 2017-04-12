@@ -9,7 +9,7 @@ class MyConfigurator implements LoggerConfigurator {
 
       // Use a different layout for the next appender
       $layout = new LoggerLayoutPattern();
-      $layout->setConversionPattern("%date{Y-m-d H:i:s} [%logger] %-5level - %msg%newline");
+      $layout->setConversionPattern("%date{Y-m-d H:i:s} [%-20logger] %-5level - %msg%newline");
       $layout->activateOptions();
 
       // Create an appender which echoes log events, using a custom layout
