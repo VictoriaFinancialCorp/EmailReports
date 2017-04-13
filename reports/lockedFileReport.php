@@ -16,6 +16,8 @@ function prepareMessage(){
     "<th>Loan#</th>" .
     "<th>Borrower Name</th>" .
     "<th>Loan Amount</th>" .
+    "<th>Int. Rate</th>" .
+    "<th>Term</th>" .
     "<th>Inv. Lock Date</th>" .
     "<th>Lock Exp</th>" .
     "<th>Lock Type</th>" .
@@ -29,7 +31,7 @@ function prepareMessage(){
   try {
       $dbh = new PDO('mysql:host=' . DB::host . ';dbname=' . DB::db_name, DB::user, DB::pass);
       $query = "SELECT investor, investorNum, loanNum, b1_lname, b1_fname, " .
-        "loanAmt, investorLockDate, investorLockExpDate, investorLockType, ".
+        "loanAmt, int_rate, loan_term, investorLockDate, investorLockExpDate, investorLockType, ".
         "baseYSP, netSRP, netYSP, processor, loanOfficer, fundedDate FROM loans " .
         "WHERE investorLockDate >= '{$dateFrom->format('Y-m-d')}' " .
           "AND investorLockDate <= '{$dateTo->format('y-m-d')}' " .
@@ -43,6 +45,8 @@ function prepareMessage(){
             "<td>{$row['loanNum']}</td>" .
             "<td>{$row['b1_lname']}, {$row['b1_fname']}</td>" .
             "<td>{$row['loanAmt']}</td>" .
+            "<td>" . number_format($row['int_rate'], 3) . "</td>" .
+            "<td>{$row['loan_term']}</td>" .
             "<td>" . date_create($row['investorLockDate'])->format('m/d/y') . "</td>" .
             "<td>" . date_create($row['investorLockExpDate'])->format('m/d/y') . "</td>" .
             "<td>{$row['investorLockType']}</td>" ;
@@ -61,7 +65,7 @@ function prepareMessage(){
       }
 
       $dbh = null;
-      $message .= "<tr><td class='warning' colspan='6'>Invalid Format: Needs Revision</td><td class='danger' colspan='6'>Negative Rebate</td></tr>";
+      $message .= "<tr><td class='warning' colspan='7'>Invalid Format: Needs Revision</td><td class='danger' colspan='7'>Negative Rebate</td></tr>";
 
       $message .= "</table>";
 
