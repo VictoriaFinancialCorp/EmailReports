@@ -120,7 +120,7 @@ if($debug){
   $log->info("Report is empty. Nothing to mail out.");
 }else{
   $input = getArgs($argv);
-  sendMail($input, '[Server Report] Servicing Loans', $htmlMessage);
+  sendMail($input, '[Server Report] Servicing Loans', $htmlMessage, basename(__FILE__));
 }
 
 ?>

@@ -5,11 +5,11 @@ include_once '../config/config.php';
 class MyConfigurator implements LoggerConfigurator {
 
   public function configure(LoggerHierarchy $hierarchy, $input = null) {
-      $save_path = (empty(LoggerConfig::save_path) )  ? '../system.log' : LoggerConfig::save_path;
+      $save_path = (empty(LoggerConfig::save_path) )  ? '../myLog.log' : LoggerConfig::save_path;
 
       // Use a different layout for the next appender
       $layout = new LoggerLayoutPattern();
-      $layout->setConversionPattern("%date{Y-m-d H:i:s} [%-20logger] %-5level - %msg%newline");
+      $layout->setConversionPattern("%date{Y-m-d H:i:s} [%-25logger] %-5level - %msg%newline");
       $layout->activateOptions();
 
       // Create an appender which echoes log events, using a custom layout

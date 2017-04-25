@@ -89,7 +89,7 @@ if($debug){
   $log->info("Report is empty. Nothing to mail out.");
 }else{
   $input = getArgs($argv);
-  sendMail($input, '[Server Report] Files Funded ' . date_create()->format('m/d/y'), $htmlMessage);
+  sendMail($input, '[Server Report] Files Funded ' . date_create()->format('m/d/y'), $htmlMessage, basename(__FILE__) );
 }
 
 ?>

@@ -5,8 +5,8 @@ include_once '../config/config.php';
 include_once "logger.php";
 use Mailgun\Mailgun;
 
-function sendMail($input, $subject, $html){
-  $log = Logger::getLogger("Mailgun");
+function sendMail($input, $subject, $html, $class=null){
+  $log = Logger::getLogger( (isset($class)) ? $class: "Mailgun");
 
   # Instantiate the client.
   $mgClient = new MailGun(MailGunConfig::api);

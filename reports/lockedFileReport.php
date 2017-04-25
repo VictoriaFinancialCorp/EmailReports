@@ -85,7 +85,7 @@ if($debug){
   print($htmlMessage);
 }else{
   $input = getArgs($argv);
-  $result = sendMail($input, '[Server Report] Locked Files', $htmlMessage);
+  $result = sendMail($input, '[Server Report] Locked Files', $htmlMessage, basename(__FILE__));
 }
 
 ?>
