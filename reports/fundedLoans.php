@@ -21,6 +21,9 @@ function prepareMessage(){
     "<th>Loan#</th>" .
     "<th>Borrower Name</th>" .
     "<th>Loan Amount</th>" .
+    "<th>Rate</th>" .
+    "<th>Term</th>" .
+    "<th>Rebate</th>" .
     "<th>Processor</th>" .
     "<th>Loan Officer</th>" .
     "</tr>";
@@ -29,19 +32,24 @@ function prepareMessage(){
   try {
       $dbh = new PDO('mysql:host=' . DB::host . ';dbname=' . DB::db_name, DB::user, DB::pass);
       $query = "SELECT investor, investorNum, loanNum, b1_lname, b1_fname, " .
-        "loanAmt, processor, loanOfficer, fundedDate " .
+        "loanAmt, int_rate, loan_term, netYSP, netSRP, processor, loanOfficer, fundedDate " .
         "FROM loans " .
         "WHERE fundedDate = '" . $today->format('Y-m-d') . "'";
 
         //print($query);
 
       foreach($dbh->query($query) as $row) {
+        $rebate = 100 + $row['netSRP'] + $row['netYSP'];
+        $rebate = ($rebate==100) ? null: $rebate;
           $message .= "<tr>" .
           "<td>{$row['investor']}</td>" .
           "<td>{$row['investorNum']}</td>" .
           "<td>{$row['loanNum']}</td>" .
           "<td>{$row['b1_lname']}, {$row['b1_fname']}</td>" .
           "<td>{$row['loanAmt']}</td>" .
+          "<td>" . number_format($row['int_rate'], 3) . "</td>" .
+          "<td>{$row['loan_term']}</td>" .
+          "<td>{$rebate}</td>" .
           "<td>{$row['processor']}</td>" .
           "<td>{$row['loanOfficer']}</td>" .
           "</tr>";
@@ -51,7 +59,7 @@ function prepareMessage(){
       }
 
       $dbh = null;
-      $message .= "<tr><td colspan=7>TOTAL: $count file(s)  $" . number_format($loanSum) . "</td></tr>";
+      $message .= "<tr><td colspan=100>TOTAL: $count file(s)  $" . number_format($loanSum) . "</td></tr>";
       $message .= "</table>";
 
       if($count==0){
