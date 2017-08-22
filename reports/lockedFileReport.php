@@ -59,9 +59,14 @@ function prepareMessage(){
           }
 
           $message .= "<td>{$row['processor']}</td>" .
-            "<td>{$row['loanOfficer']}</td>" .
-            "<td>" . date_create($row['fundedDate'])->format('m/d/y') . "</td>" .
-            "</tr>";
+            "<td>{$row['loanOfficer']}</td>" ;
+
+          if(empty($row['fundedDate'])){
+            $message .= "<td></td>" ;
+          }else{
+            $message .= "<td>" . date_create($row['fundedDate'])->format('m/d/y') . "</td>";
+          }
+          $message .= "</tr>";
       }
 
       $dbh = null;

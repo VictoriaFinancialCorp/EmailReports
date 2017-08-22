@@ -1,25 +1,25 @@
 <?php
   date_default_timezone_set('America/Los_Angeles');
   class DB{
-    public const bin_path = 'C:/mysql/bin/';
-    public const host  = 'localhost';
-    public const db_name  = '';
-    public const user  = '';
-    public const pass  = '';
+    const bin_path = 'C:/mysql/bin/';
+    const host  = 'localhost';
+    const db_name  = '';
+    const user  = '';
+    const pass  = '';
   }
   class Email{
-    public const login = 'admin@localhost';
-    public const pw = 'password';
-    public const host = 'localhost';
-    public const SMTPAuth = true;
-    public const SMTPSecure = 'tls';
-    public const port = 587;
+    const login = 'admin@localhost';
+    const pw = 'password';
+    const host = 'localhost';
+    const SMTPAuth = true;
+    const SMTPSecure = 'tls';
+    const port = 587;
   }
   class MailGunConfig{
-    public const api = 'key-';
-    public const domain = 'localhost';
-    public const from = 'server@localhost';
-    public const subject = '[Server Report]';
+    const api = 'key-';
+    const domain = 'localhost';
+    const from = 'server@localhost';
+    const subject = '[Server Report]';
   }
   class LoggerConfig{
     public const save_path = '';
